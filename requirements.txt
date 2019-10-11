@@ -1,0 +1,4 @@
+PyYAML==3.13
+boto3
+numpy
+tweepy

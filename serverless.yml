@@ -1,0 +1,48 @@
+service: fb-TwitterBot
+
+provider:
+  name: aws
+  runtime: python3.6
+  memorySize: 256
+  timeout: 900
+  region: ${opt:region, 'eu-central-1'}
+  stage: ${opt:stage, 'production'}
+  environment:
+    PROJECT: ${self:service}-${self:provider.stage}
+    ENV: ${self:provider.stage}
+  iamRoleStatements:
+    -  Effect: "Allow"
+       Action:
+         - "s3:*"
+       Resource: 'arn:aws:s3:::fb-twitterbot'
+    -  Effect: "Allow"
+       Action:
+         - "s3:*"
+       Resource: 'arn:aws:s3:::fb-twitterbot/*'
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
+
+
+plugins:
+  - serverless-python-requirements
+
+functions:
+  run:
+    handler: bots/fetchfollow.fetchfollow
+    events:
+      - schedule:
+          rate: cron(15 */3 * * ? *)
+
+  post:
+    handler: bots/post.post_random_medium_article
+    events:
+      - schedule:
+          rate: cron(37 7,18 * * ? *)
+
+  unfollow:
+    handler: bots/unfollow.unfollow
+    events:
+      - schedule:
+          rate: cron(17,32,45 */2 * * ? *)
