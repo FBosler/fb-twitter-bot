@@ -21,7 +21,7 @@ def unfollow(event=None, context=None):
             key=lambda x: parse(x[1]['followed_at'])
         )
 
-        number_to_unfollow = random.randint(1, 3)
+        number_to_unfollow = random.randint(1, 5)
         for currently_following in sorted_by_following_date[:number_to_unfollow]:
             _id = currently_following[0]
 
