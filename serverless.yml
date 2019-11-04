@@ -33,7 +33,7 @@ functions:
     handler: bots/fetchfollow.fetchfollow
     events:
       - schedule:
-          rate: cron(3,21,37 */2 * * ? *)
+          rate: cron(3,21,37,54 */2 * * ? *)
 
   post:
     handler: bots/post.post_random_medium_article
@@ -45,4 +45,4 @@ functions:
     handler: bots/unfollow.unfollow
     events:
       - schedule:
-          rate: cron(17,32,45 */1 * * ? *)
+          rate: cron(3,17,32,45 */1 * * ? *)

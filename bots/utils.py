@@ -6,9 +6,27 @@ import json
 import pickle
 import csv
 import shutil
+import time
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 S3_BUCKET_NAME = 'fb-twitterbot'
 DEFAULT_TMP_FOLDER = '/tmp'
+
+
+def random_execute(do_nothing_prob=.5, max_delay=60):
+    def decorator_random(func):
+        def wrapper_random(*args, **kwargs):
+            if np.random.random() < do_nothing_prob:
+                logger.info(f'Doing nothing this time')
+            else:
+                wait = np.random.randint(max_delay)
+                logger.info(f'Waiting {wait} seconds')
+                time.sleep(wait)
+                return func(*args, **kwargs)
+        return wrapper_random
+    return decorator_random
 
 
 def sigmoid(x):

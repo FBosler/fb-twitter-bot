@@ -37,9 +37,10 @@ def fetch_most_original_tweets(user):
 
 def interact_with_user(user, following_history, hashtags):
     if not user.following:
-        logger.info(f"Following {user.name}")
-        user.follow()
-        following_history[user.id_str] = {'followed_at': datetime.datetime.now().isoformat()}
+        if random.random() > 0.25:
+            logger.info(f"Following {user.name}")
+            user.follow()
+            following_history[user.id_str] = {'followed_at': datetime.datetime.now().isoformat()}
 
         user_tweets = sorted(fetch_most_original_tweets(user), key=lambda x: x.score, reverse=True)
         if len(user_tweets) > 0:
@@ -113,45 +114,43 @@ def get_users_from_recent_tweets(cnt=10, hashtags=None):
     return users
 
 
+@_utils.random_execute(do_nothing_prob=.6, max_delay=120)
 def fetchfollow(event=None, context=None):
-    if random.random() > .4:
-        logger.info(f'Doing nothing this time')
-    else:
-        hashtags = random.choice(HASHTAG_SETS)
+    hashtags = random.choice(HASHTAG_SETS)
 
-        # monkey-patch the tweepy User class by adding a hashfunction, which we will need to quickly get unique users
-        tweepy.models.User.__hash__ = lambda self: hash(self.id_str)
-        users = list(set(get_users_from_recent_tweets(cnt=250, hashtags=hashtags)))
+    # monkey-patch the tweepy User class by adding a hashfunction, which we will need to quickly get unique users
+    tweepy.models.User.__hash__ = lambda self: hash(self.id_str)
+    users = list(set(get_users_from_recent_tweets(cnt=250, hashtags=hashtags)))
 
-        # score users
-        for user in users:
-            user.score = score_user(user)
+    # score users
+    for user in users:
+        user.score = score_user(user)
 
-        # sort users by score
-        users = sorted(users, key=lambda x: x.score, reverse=True)
-        logger.info(f"Found {len(users)}")
+    # sort users by score
+    users = sorted(users, key=lambda x: x.score, reverse=True)
+    logger.info(f"Found {len(users)}")
 
-        following_history = _utils.get_s3_data('following.json')
+    following_history = _utils.get_s3_data('following.json')
 
-        max_interactions = 10
-        interactions = 0
-        for user in users:
-            time.sleep(random.random() * 10 + 2)
-            if user.id_str not in following_history:
-                try:
-                    logger.info(f"Interacting with {user.name}")
-                    interact_with_user(user, following_history, hashtags)
-                    interactions += 1
-                except Exception as e:
-                    logger.error(f'Syncing followers history on error: {e}')
-                    _utils.sync_s3_data(following_history)
-                    raise
+    max_interactions = 10
+    interactions = 0
+    for user in users:
+        time.sleep(random.random() * 10 + 2)
+        if user.id_str not in following_history:
+            try:
+                logger.info(f"Interacting with {user.name}")
+                interact_with_user(user, following_history, hashtags)
+                interactions += 1
+            except Exception as e:
+                logger.error(f'Syncing followers history on error: {e}')
+                _utils.sync_s3_data(following_history)
+                raise
 
-            if interactions >= max_interactions:
-                break
+        if interactions >= max_interactions:
+            break
 
-        logger.info('Syncing followers history on ordinary termination')
-        _utils.sync_s3_data(following_history)
+    logger.info('Syncing followers history on ordinary termination')
+    _utils.sync_s3_data(following_history)
 
 
 def comment_tweet(user, tweet):
