@@ -37,7 +37,7 @@ def fetch_most_original_tweets(user):
 
 def interact_with_user(user, following_history, hashtags):
     if not user.following:
-        if random.random() > 0.25:
+        if random.random() > 0.4:
             logger.info(f"Following {user.name}")
             user.follow()
             following_history[user.id_str] = {'followed_at': datetime.datetime.now().isoformat()}
