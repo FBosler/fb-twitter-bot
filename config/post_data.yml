@@ -1,10 +1,10 @@
-Advanced - Visualize Sales Team:
-- Advanced - Visualize Sales Team
-- https://towardsdatascience.com/how-to-explore-and-visualize-a-dataset-with-python-7da5024900ef
-- - Datascience
-  - BigData
-  - DataVisualization
-- How to visualize a data set!
+#Advanced - Visualize Sales Team:
+#- Advanced - Visualize Sales Team
+#- https://towardsdatascience.com/how-to-explore-and-visualize-a-dataset-with-python-7da5024900ef
+#- - Datascience
+#  - BigData
+#  - DataVisualization
+#- How to visualize a data set!
 Beginner - Install Anaconda:
 - Beginner - Install Anaconda
 - https://towardsdatascience.com/get-started-with-python-e50dc8c96589
@@ -29,14 +29,14 @@ Advanced - Cohort Analysis:
   - DataVisualization
   - Python
 - Understand your customers retention!
-Advanced - @classmethod Decorator:
-- Advanced - @classmethod Decorator
-- https://medium.com/better-programming/use-the-little-known-classmethod-decorator-to-add-constructors-to-your-classes-464e96d8fe86
-- - Datascience
-  - BigData
-  - Programming
-  - Python
-- Use the classmethod decorator to add custom constructors!
+#Advanced - @classmethod Decorator:
+#- Advanced - @classmethod Decorator
+#- https://medium.com/better-programming/use-the-little-known-classmethod-decorator-to-add-constructors-to-your-classes-464e96d8fe86
+#- - Datascience
+#  - BigData
+#  - Programming
+#  - Python
+#- Use the classmethod decorator to add custom constructors!
 Beginner - Master Pandas:
 - Beginner - Master Pandas
 - https://towardsdatascience.com/how-to-master-pandas-8514f33f00f6#14fd-ea883071854e
@@ -99,3 +99,14 @@ Advanced - Learn how to create beautiful and insightful charts with Python:
   - Automation
   - Machine Learning
 - Money can buy happiness. A comprehensive code-along guide to visualization with Python!
+Beginners - Learn how to build a milestone referral program with ReactJS:
+- Beginners - Learn how to build a milestone referral program with ReactJS
+- https://medium.com/swlh/building-the-frontend-for-a-milestone-referral-program-2ccac1598894
+- - JavaScript
+  - ReactJS
+  - WebDevelopment
+  - SinglePageApp
+  - FullStack
+  - Bootstrap
+  - Referral
+- Check out this first part of a comprehensive code-along series to build your own fullstack app.
