@@ -5,6 +5,7 @@ import random
 import logging
 import time
 import datetime
+from tweepy.errors import NotFound
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -24,10 +25,13 @@ def unfollow(event=None, context=None):
         _id = currently_following[0]
 
         try:
-            print(_id)
-            get_twitter_api().destroy_friendship(_id)
+            api = get_twitter_api()
+            api.destroy_friendship(user_id=_id)
             following_history[_id]['unfollowed_at'] = datetime.datetime.now().isoformat()
             logger.info(f'Unfollowing: {_id}')
+        except NotFound as e:
+            following_history[_id]['unfollowed_at'] = datetime.datetime.now().isoformat()
+            logger.info(f'{_id} does not exist any longer, will mark as unfollowed')
         except Exception as e:
             logger.error(f'Unfollowing: {_id} did not work with error {e}')
         time.sleep(random.randint(2, 8))

@@ -64,7 +64,7 @@ def created_at_score(inp, **kwargs):
     """
     Inverse Sigmoid function to model decay from mmax_val to 0 over a given time
     """
-    days_since_creation = (datetime.datetime.today() - inp.created_at).days
+    days_since_creation = (datetime.datetime.today() - inp.created_at.replace(tzinfo=None)).days
 
     kwargs['center'] = kwargs.get('center', 3)
 

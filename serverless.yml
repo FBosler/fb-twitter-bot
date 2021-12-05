@@ -1,12 +1,13 @@
-service: fb-TwitterBot
+service: fb-twitter-bot
 
 provider:
   name: aws
-  runtime: python3.6
-  memorySize: 256
+  runtime: python3.8
+  memorySize: 128
   timeout: 900
   region: ${opt:region, 'eu-central-1'}
   stage: ${opt:stage, 'production'}
+  lambdaHashingVersion: 20201221
   environment:
     PROJECT: ${self:service}-${self:provider.stage}
     ENV: ${self:provider.stage}
@@ -29,17 +30,17 @@ plugins:
   - serverless-python-requirements
 
 functions:
-  run:
-    handler: bots/fetchfollow.fetchfollow
-    events:
-      - schedule:
-          rate: cron(21,37,54 */4 * * ? *)
-
-  post:
-    handler: bots/post.post_random_medium_article
-    events:
-      - schedule:
-          rate: cron(37 7,18 * * ? *)
+#  run:
+#    handler: bots/fetchfollow.fetchfollow
+#    events:
+#      - schedule:
+#          rate: cron(21,37,54 */4 * * ? *)
+#
+#  post:
+#    handler: bots/post.post_random_medium_article
+#    events:
+#      - schedule:
+#          rate: cron(37 7,18 * * ? *)
 
   unfollow:
     handler: bots/unfollow.unfollow
